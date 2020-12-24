@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Visitas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-radio-group value="tecnico">
+      <ion-list-header>
+        <ion-label>¿Quien quiere que le visite?</ion-label>
+      </ion-list-header>
+  
+      <ion-item>
+        <ion-label>Tecnico</ion-label>
+        <ion-radio slot="start" value="tecnico"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Comercial</ion-label>
+        <ion-radio slot="start" value="comercial"></ion-radio>
+      </ion-item>
+  
+    </ion-radio-group>
+
+    <ion-item>
+      <ion-label position="floating">Asunto</ion-label>
+      <ion-textarea></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>¿Que día te visitamos?</ion-label>
+      <ion-datetime placeholder="Día" min="2020" max="2099-10-31"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>¿Que hora deseas?</ion-label>
+      <ion-datetime display-format="H:MM" picker-format="H:MM" placeholder="Hora"></ion-datetime>
+    </ion-item>
+  </ion-list>
+  <ion-button shape="round" expand="block">Solicitar visita</ion-button>
+
+</ion-content>
