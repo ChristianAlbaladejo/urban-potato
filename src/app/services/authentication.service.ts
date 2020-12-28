@@ -36,9 +36,6 @@ export class AuthenticationService {
       "USUARIO": credentials.email,
       "CONTRASEÑA": credentials.password
     }]
-    console.log(user)
-    let bytes = this.roughSizeOfObject(user)
-    console.log(bytes)
     let headers = new HttpHeaders({
       'Content-type': 'application/json',
     });
@@ -46,7 +43,7 @@ export class AuthenticationService {
    return this.http.post(`http://clouddemosjnc.dyndns.org:5001/login`, user, { headers: headers }).pipe(
       map((data: any) => data),
       switchMap(token => {
-        return from(Storage.set({ key: TOKEN_KEY, value: token }));
+        return from(Storage.set({ key: TOKEN_KEY, value: token.Token }));
       }),
       tap(_ => {
         this.isAuthenticated.next(true);
@@ -58,37 +55,4 @@ export class AuthenticationService {
     this.isAuthenticated.next(false);
     return Storage.remove({ key: TOKEN_KEY });
   }
-
-  roughSizeOfObject(object) {
-
-  var objectList = [];
-  var stack = [object];
-  var bytes = 0;
-
-  while (stack.length) {
-    var value = stack.pop();
-
-    if (typeof value === 'boolean') {
-      bytes += 4;
-    }
-    else if (typeof value === 'string') {
-      bytes += value.length * 2;
-    }
-    else if (typeof value === 'number') {
-      bytes += 8;
-    }
-    else if
-      (
-      typeof value === 'object'
-      && objectList.indexOf(value) === -1
-    ) {
-      objectList.push(value);
-
-      for (var i in value) {
-        stack.push(value[i]);
-      }
-    }
-  }
-  return bytes;
-}
 }
