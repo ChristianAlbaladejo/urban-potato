@@ -5,7 +5,9 @@ import { LoadingController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
+import { Plugins } from '@capacitor/core';
 
+const { Storage } = Plugins;
 @Component({
   selector: 'app-folder',
   templateUrl: './folder.page.html',
@@ -23,7 +25,10 @@ export class FolderPage implements OnInit {
     private authService: AuthenticationService,
     private router: Router) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    let token = await Storage.get({ key: 'PRODUCTS' });
+    this.products = JSON.parse(token.value);
+    console.log(this.products)
     this.load();
   }
 
@@ -76,6 +81,14 @@ export class FolderPage implements OnInit {
   }
 
   async presentActionSheet(product) {
+    let flag = false;
+    for (var i = 0; i < this.products.length; i++) {
+      if (this.products[i].iD == product.iD) {
+        flag = true;
+        break;
+      }
+    }
+    if (flag){
     const actionSheet = await this.actionSheetController.create({
       header: product.aRTALIAS,
       buttons: [{
@@ -83,14 +96,21 @@ export class FolderPage implements OnInit {
         icon: 'share',
         handler: () => {
           this.products.push(product)
+          Storage.set({ key: 'PRODUCTS', value: JSON.stringify(this.products) })
         }
       }, {
         text: 'Eliminar de la lista',
         role: 'destructive',
         icon: 'trash',
-        handler: () => {
-          const myIndex = this.products.indexOf(product)
-          myIndex > -1 ? this.products.splice(myIndex, 1) : false
+        handler: async () => {
+          for (var i = 0; i < this.products.length; i++) {
+            if (this.products[i].iD == product.iD) {
+              this.products.splice(i, 1);
+              await Storage.remove({ key: 'PRODUCTS' });
+              Storage.set({ key: 'PRODUCTS', value: JSON.stringify(this.products) })
+              break;
+            }
+          }
         }
       }, {
         text: 'Cancelar',
@@ -102,6 +122,27 @@ export class FolderPage implements OnInit {
       }]
     });
     await actionSheet.present();
+  }else {
+      const actionSheet = await this.actionSheetController.create({
+        header: product.aRTALIAS,
+        buttons: [{
+          text: 'Añadir',
+          icon: 'share',
+          handler: () => {
+            this.products.push(product)
+            Storage.set({ key: 'PRODUCTS', value: JSON.stringify(this.products) })
+          }
+        }, {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }]
+      });
+      await actionSheet.present();
+  }
   }
 
   async logout() {
