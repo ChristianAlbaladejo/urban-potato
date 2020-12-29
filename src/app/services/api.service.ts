@@ -27,6 +27,18 @@ export class ApiService {
         return this._http.get('http://clouddemosjnc.dyndns.org:5001/DescargaDocumento/ObtenerImagenes?imagenes=79', { headers: headers });
     }
 
+    async getProductsTop(): Promise<Observable<any>>{
+        let token = await Storage.get({ key: TOKEN_KEY });
+        console.log(token.value);
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json; charset=UTF-8"',
+            'Authorization': 'Bearer ' + token.value
+        });
+
+        console.log(headers)
+        return this._http.get('http://clouddemosjnc.dyndns.org:5001/consulta/articulo?campos=TOP (15) ARTALIAS ,CODART,ID ,DESCART ,PRCCOMPRA', { headers: headers });
+    }
+
     async getString(){
         let token = await Storage.get({ key: TOKEN_KEY });
         console.log(token.value);

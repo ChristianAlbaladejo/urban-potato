@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cart.page.scss'],
 })
 export class CartPage implements OnInit {
-
+  public products
   constructor() { }
 
   ngOnInit() {
+    this.products = history.state
   }
 
 }

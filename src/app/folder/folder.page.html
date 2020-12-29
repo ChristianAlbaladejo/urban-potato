@@ -13,35 +13,19 @@
       Top 15
     </ion-list-header>
 
-    <ion-item (click)="presentActionSheet()">
+    <ion-item (click)="presentActionSheet(top)" *ngFor="let top of artTop">
       <ion-thumbnail slot="start">
         <ion-img
           src="https://rockcontent.com/es/wp-content/uploads/2019/02/o-que-e-produto-no-mix-de-marketing-1280x720.png">
         </ion-img>
       </ion-thumbnail>
       <ion-label>
-        <h2>Finn</h2>
-        <h3>I'm a big deal</h3>
-        <p>Listen, I've had a pretty messed up day...</p>
+        <h2>{{top.aRTALIAS}}</h2>
+        <p>{{top.dESCART}}</p>
+<!--         <p>Listen, I've had a pretty messed up day...</p> -->
       </ion-label>
       <div slot="end">
-        <h2>25€</h2>
-      </div>
-    </ion-item>
-
-    <ion-item>
-      <ion-thumbnail slot="start">
-        <ion-img
-          src="https://rockcontent.com/es/wp-content/uploads/2019/02/o-que-e-produto-no-mix-de-marketing-1280x720.png">
-        </ion-img>
-      </ion-thumbnail>
-      <ion-label>
-        <h2>Finn</h2>
-        <h3>I'm a big deal</h3>
-        <p>Listen, I've had a pretty messed up day...</p>
-      </ion-label>
-      <div slot="end">
-        <h2>25€</h2>
+        <h2>{{top.pRCCOMPRA}}€</h2>
       </div>
     </ion-item>
   </ion-list>
@@ -135,11 +119,11 @@
       </div>
     </ion-item>
   </ion-list>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" routerLink="/cart">
-    <ion-badge color="danger" style="left: -3px; z-index: 3; position: absolute; top:-2px; border-radius:100%;">10
+   <ion-fab vertical="bottom" horizontal="end" slot="fixed" [routerLink]="['/cart']" [state]="{ products: products}">
+    <ion-badge color="danger" style="left: -3px; z-index: 3; position: absolute; top:-2px; border-radius:100%; padding-left: 0.5rem;padding-right: 0.5rem;">{{this.products.length}}
     </ion-badge>
     <ion-fab-button>
       <ion-icon name="cart"></ion-icon>
     </ion-fab-button>
-  </ion-fab>
+  </ion-fab> 
 </ion-content>
