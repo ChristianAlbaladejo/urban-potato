@@ -13,7 +13,11 @@
       Pedido
     </ion-list-header>
 
-    <ion-item *ngFor="let p of products.products">
+    <ion-item-sliding *ngFor="let p of products.products">
+      <ion-item-options side="start">
+        <ion-item-option color="danger" (click)="remove(p)"><ion-icon style="zoom:1.5;" name="trash-outline"></ion-icon></ion-item-option>
+      </ion-item-options>
+    <ion-item>
       <ion-thumbnail slot="start">
         <ion-img
           src="https://rockcontent.com/es/wp-content/uploads/2019/02/o-que-e-produto-no-mix-de-marketing-1280x720.png">
@@ -21,29 +25,30 @@
       </ion-thumbnail>
       <ion-label>
         <h2>{{p.aRTALIAS}}</h2>
-        <p>{{p.dESCART}}</p>
-        <!--         <p>Listen, I've had a pretty messed up day...</p> -->
+        <h3>{{p.dESCART}}</h3>
+        <p>x{{p.quantity}}</p>
       </ion-label>
       <div slot="end">
         <h2>{{p.pRCCOMPRA}}€</h2>
       </div>
     </ion-item>
+    </ion-item-sliding>
     <ion-item>
       <h3>Total:</h3>
       <div slot="end">
-        <h2>{{getTotal()}}€</h2>
+        <h2>{{getTotal() | number : '1.2-2'}}€</h2>
       </div>
     </ion-item>
   </ion-list>
 
-  <ion-radio-group value="tarjeta">
+  <ion-radio-group value="credito">
     <ion-list-header>
       <ion-label>Forma de pago</ion-label>
     </ion-list-header>
 
     <ion-item>
-      <ion-label>Tarjeta</ion-label>
-      <ion-radio slot="start" value="tarjeta"></ion-radio>
+      <ion-label>Crédito</ion-label>
+      <ion-radio slot="start" value="credito"></ion-radio>
     </ion-item>
 
     <ion-item>
@@ -60,5 +65,5 @@
       <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
     </ion-item>
   </ion-list>
-  <ion-button shape="round" expand="block">Pedir</ion-button>
+  <ion-button [disabled]="products.length ? 0 : null" shape="round" expand="block">Pedir</ion-button>
 </ion-content>

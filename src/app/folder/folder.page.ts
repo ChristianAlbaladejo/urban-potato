@@ -27,9 +27,19 @@ export class FolderPage implements OnInit {
 
   async ngOnInit() {
     let token = await Storage.get({ key: 'PRODUCTS' });
+    if (token.value){
     this.products = JSON.parse(token.value);
+    }
     console.log(this.products)
     this.load();
+  }
+
+  async ionViewDidEnter(){
+    let token = await Storage.get({ key: 'PRODUCTS' });
+    if (token.value) {
+      this.products = JSON.parse(token.value);
+    }
+    console.log(this.products)
   }
 
   async load() {
@@ -42,19 +52,22 @@ export class FolderPage implements OnInit {
       (response) => {
         console.log(response);
         this.artTop = response;
+        this.artTop.forEach(item => item["quantity"] = 0);
+        console.log(this.artTop);
         this.loadImages()
       }, async (error) => {
         console.log(error)
         if (error.status === 401) {
           this.logout();
           this.loadingController.dismiss();
+        } else {
+          const alert = await this.alertController.create({
+            header: 'Error',
+            subHeader: 'Parece que hay problemas ',
+            buttons: ['OK']
+          });
+          await alert.present();
         }
-        const alert = await this.alertController.create({
-          header: 'Error',
-          subHeader: 'Parece que hay problemas ',
-          buttons: ['OK']
-        });
-        await alert.present();
       }
     )
   }
@@ -68,67 +81,70 @@ export class FolderPage implements OnInit {
         console.log(error)
         if (error.status === 401) {
           this.logout();
+        } else {
+          const alert = await this.alertController.create({
+            header: 'Error',
+            subHeader: 'Parece que hay problemas ',
+            buttons: ['OK']
+          });
+          await alert.present();
         }
-        this.loadingController.dismiss();
-        const alert = await this.alertController.create({
-          header: 'Error',
-          subHeader: 'Parece que hay problemas ',
-          buttons: ['OK']
-        });
-        await alert.present();
       }
     )
   }
 
   async presentActionSheet(product) {
     let flag = false;
+    let index = 0;
     for (var i = 0; i < this.products.length; i++) {
       if (this.products[i].iD == product.iD) {
+        index = i;
         flag = true;
         break;
       }
     }
-    if (flag){
-    const actionSheet = await this.actionSheetController.create({
-      header: product.aRTALIAS,
-      buttons: [{
-        text: 'Añadir',
-        icon: 'share',
-        handler: () => {
-          this.products.push(product)
-          Storage.set({ key: 'PRODUCTS', value: JSON.stringify(this.products) })
-        }
-      }, {
-        text: 'Eliminar de la lista',
-        role: 'destructive',
-        icon: 'trash',
-        handler: async () => {
-          for (var i = 0; i < this.products.length; i++) {
-            if (this.products[i].iD == product.iD) {
-              this.products.splice(i, 1);
-              await Storage.remove({ key: 'PRODUCTS' });
-              Storage.set({ key: 'PRODUCTS', value: JSON.stringify(this.products) })
-              break;
-            }
-          }
-        }
-      }, {
-        text: 'Cancelar',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
-        }
-      }]
-    });
-    await actionSheet.present();
-  }else {
+    if (flag) {
       const actionSheet = await this.actionSheetController.create({
         header: product.aRTALIAS,
         buttons: [{
           text: 'Añadir',
           icon: 'share',
           handler: () => {
+            this.products[index].quantity += 1;
+            Storage.set({ key: 'PRODUCTS', value: JSON.stringify(this.products) })
+          }
+        }, {
+          text: 'Eliminar de la lista',
+          role: 'destructive',
+          icon: 'trash',
+          handler: async () => {
+            for (var i = 0; i < this.products.length; i++) {
+              if (this.products[i].iD == product.iD) {
+                this.products.splice(i, 1);
+                await Storage.remove({ key: 'PRODUCTS' });
+                Storage.set({ key: 'PRODUCTS', value: JSON.stringify(this.products) })
+                break;
+              }
+            }
+          }
+        }, {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }]
+      });
+      await actionSheet.present();
+    } else {
+      const actionSheet = await this.actionSheetController.create({
+        header: product.aRTALIAS,
+        buttons: [{
+          text: 'Añadir',
+          icon: 'share',
+          handler: () => {
+            product.quantity += 1;
             this.products.push(product)
             Storage.set({ key: 'PRODUCTS', value: JSON.stringify(this.products) })
           }
@@ -142,7 +158,7 @@ export class FolderPage implements OnInit {
         }]
       });
       await actionSheet.present();
-  }
+    }
   }
 
   async logout() {

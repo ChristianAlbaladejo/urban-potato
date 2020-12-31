@@ -22,7 +22,6 @@
       <ion-label>
         <h2>{{top.aRTALIAS}}</h2>
         <p>{{top.dESCART}}</p>
-<!--         <p>Listen, I've had a pretty messed up day...</p> -->
       </ion-label>
       <div slot="end">
         <h2>{{top.pRCCOMPRA}}€</h2>
@@ -120,7 +119,7 @@
     </ion-item>
   </ion-list>
    <ion-fab vertical="bottom" horizontal="end" slot="fixed" [routerLink]="['/cart']" [state]="{ products: products}">
-    <ion-badge color="danger" style="left: -3px; z-index: 3; position: absolute; top:-2px; border-radius:100%; padding-left: 0.5rem;padding-right: 0.5rem;">{{this.products.length}}
+    <ion-badge color="danger" style="left: -3px; z-index: 3; position: absolute; top:-2px; border-radius:100%; padding-left: 0.5rem;padding-right: 0.5rem;">{{products.length}}
     </ion-badge>
     <ion-fab-button>
       <ion-icon name="cart"></ion-icon>
