@@ -33,13 +33,13 @@
 
     <ion-item>
       <ion-label>¿Que día te visitamos?</ion-label>
-      <ion-datetime placeholder="Día" min="2020" max="2099-10-31"></ion-datetime>
+      <ion-datetime [(ngModel)]="day" placeholder="Día" min="2020" max="2099-10-31"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label>¿Que hora deseas?</ion-label>
-      <ion-datetime display-format="H:MM" picker-format="H:MM" placeholder="Hora"></ion-datetime>
+      <ion-datetime [(ngModel)]="hour" display-format="H:MM" picker-format="H:MM" placeholder="Hora"></ion-datetime>
     </ion-item>
   </ion-list>
-  <ion-button shape="round" expand="block">Solicitar visita</ion-button>
+  <ion-button shape="round" expand="block" [disabled]="!hour || !day" >Solicitar visita</ion-button>
 
 </ion-content>

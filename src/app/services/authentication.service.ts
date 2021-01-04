@@ -40,7 +40,7 @@ export class AuthenticationService {
       'Content-type': 'application/json',
     });
   
-   return this.http.post(`http://clouddemosjnc.dyndns.org:5001/login`, user, { headers: headers }).pipe(
+   return this.http.post(`https://clouddemosjnc.dyndns.org:5001/login`, user, { headers: headers }).pipe(
       map((data: any) => data),
       switchMap(token => {
         return from(Storage.set({ key: TOKEN_KEY, value: token.Token }));

@@ -6,6 +6,7 @@ import { Plugins } from '@capacitor/core';
 
 const { Storage } = Plugins;
 const TOKEN_KEY = 'my-token';
+const USER = '';
 
 @Injectable()
 export class ApiService {
@@ -23,7 +24,7 @@ export class ApiService {
             'Authorization': 'Bearer ' +  token.value
         });
 
-        return this._http.get('http://clouddemosjnc.dyndns.org:5001/DescargaDocumento/ObtenerImagenes?imagenes=79', { headers: headers });
+        return this._http.get('https://clouddemosjnc.dyndns.org:5001/DescargaDocumento/ObtenerImagenes?imagenes=79', { headers: headers });
     }
 
     async getProductsTop(): Promise<Observable<any>>{
@@ -34,17 +35,18 @@ export class ApiService {
             'Authorization': 'Bearer ' + token.value
         });
 
-        return this._http.get('http://clouddemosjnc.dyndns.org:5001/consulta/articulo?campos=TOP (15) ARTALIAS ,CODART,ID ,DESCART ,PRCCOMPRA', { headers: headers });
+        return this._http.get('https://clouddemosjnc.dyndns.org:5001/consulta/articulo?campos=TOP (15) ARTALIAS ,CODART,ID ,DESCART ,PRCCOMPRA', { headers: headers });
     }
 
     async getInvoice(): Promise<Observable<any>> {
         let token = await Storage.get({ key: TOKEN_KEY });
+        let user = await Storage.get({ key: USER });
         let headers = new HttpHeaders({
             'Content-Type': 'application/json; charset=UTF-8"',
             'Authorization': 'Bearer ' + token.value
         });
 
-        return this._http.get('http://clouddemosjnc.dyndns.org:5001', { headers: headers });
+        return this._http.get('https//clouddemosjnc.dyndns.org:5001/consulta/cabefacv?filtar=codcli='+ user.value, { headers: headers });
     }
 
     async getPdf(id): Promise<Observable<any>> {
@@ -54,7 +56,17 @@ export class ApiService {
             'Authorization': 'Bearer ' + token.value
         });
 
-        return this._http.get('http://clouddemosjnc.dyndns.org:5001/DescargaDocumento/LSTIMPRALBV/drive?parametros=identificador=' + id, { headers: headers });
+        return this._http.get('https://clouddemosjnc.dyndns.org:5001/DescargaDocumento/LSTIMPRALBV/drive?parametros=identificador=' + id, { headers: headers });
+    }
+
+    async sendOrder(body): Promise<Observable<any>> {
+        let token = await Storage.get({ key: TOKEN_KEY });
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json; charset=UTF-8"',
+            'Authorization': 'Bearer ' + token.value
+        });
+        console.log(body);
+        return this._http.post('https://clouddemosjnc.dyndns.org:5001/pedido',body, { headers: headers });
     }
 
     async getString(){

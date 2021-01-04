@@ -65,5 +65,5 @@
       <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
     </ion-item>
   </ion-list>
-  <ion-button [disabled]="products.length ? 0 : null" shape="round" expand="block">Pedir</ion-button>
+  <ion-button [disabled]="products.products.length == 0" (click)="sendOrder()" shape="round" expand="block">Pedir</ion-button>
 </ion-content>

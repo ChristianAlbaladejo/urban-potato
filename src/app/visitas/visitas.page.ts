@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./visitas.page.scss'],
 })
 export class VisitasPage implements OnInit {
-
+  public day;
+  public hour;
   constructor() { }
 
   ngOnInit() {

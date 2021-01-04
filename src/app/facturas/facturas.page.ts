@@ -44,7 +44,7 @@ export class FacturasPage implements OnInit {
         this.loadingController.dismiss();
         const alert = await this.alertController.create({
           header: 'Error',
-          subHeader: 'Parece que hay problemas ',
+          subHeader: 'Parece que hay problemas',
           buttons: ['OK']
         });
         await alert.present();
