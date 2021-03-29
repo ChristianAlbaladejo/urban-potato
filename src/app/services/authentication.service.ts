@@ -34,15 +34,18 @@ export class AuthenticationService {
   login(credentials: { email, password }): Observable<any> {
     let user = [{
       "USUARIO": credentials.email,
-      "CONTRASEÑA": credentials.password
+      "CONTRASEÑA": credentials.password,
+      'Token': this.getTimeStamp()
     }]
     let headers = new HttpHeaders({
       'Content-type': 'application/json',
+      
     });
   
-   return this.http.post(`https://clouddemosjnc.dyndns.org:5001/login`, user, { headers: headers }).pipe(
+   return this.http.post(`http://192.168.200.234:5001/login`, user, { headers: headers }).pipe(
       map((data: any) => data),
       switchMap(token => {
+         console.log(token)
         return from(Storage.set({ key: TOKEN_KEY, value: token.Token }));
       }),
       tap(_ => {
@@ -55,4 +58,14 @@ export class AuthenticationService {
     this.isAuthenticated.next(false);
     return Storage.remove({ key: TOKEN_KEY });
   }
+
+  getTimeStamp(){
+    var Xmas = new Date();
+    let date = new Date(Xmas.getFullYear() + "-" + ("0" + (Xmas.getMonth() + 1)).slice(-2) + "-" + ("0" + (Xmas.getDate())).slice(-2) + " " + ("0" + (Xmas.getHours())).slice(-2) +":00:00").getTime() / 1000;
+    let payload = ((Number(date) / ((Number(("0" + Xmas.getDate()).slice(-2)) * Number(Xmas.getFullYear())))) / (Number(("0" + (Xmas.getMonth() + 1)).slice(-2)) + 0.5)) * 1000000000000
+    var output = [String(payload).slice(0, Xmas.getMonth() + 1), 'h', String(payload).slice(Xmas.getMonth() + 1)].join('');
+    console.log(output);
+
+    return String(output)
+    }
 }

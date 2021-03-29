@@ -79,4 +79,9 @@ export class ApiService {
     async setObject(key: string, value: any) {
         await Storage.set({ key, value: JSON.stringify(value) });
     }
+
+    getTimeStamp(){
+        let date = Date.now()
+        return date
+    }
 }

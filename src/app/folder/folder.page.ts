@@ -26,7 +26,7 @@ export class FolderPage implements OnInit {
     private router: Router) { }
 
   async ngOnInit() {
-    let token = await Storage.get({ key: 'PRODUCTS' });
+   /*  let token = await Storage.get({ key: 'PRODUCTS' });
     if (token.value){
     this.products = JSON.parse(token.value);
     }
@@ -39,7 +39,7 @@ export class FolderPage implements OnInit {
     if (token.value) {
       this.products = JSON.parse(token.value);
     }
-    console.log(this.products)
+    console.log(this.products) */
   }
 
   async load() {

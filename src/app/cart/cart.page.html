@@ -65,5 +65,14 @@
       <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
     </ion-item>
   </ion-list>
-  <ion-button [disabled]="products.products.length == 0" (click)="sendOrder()" shape="round" expand="block">Pedir</ion-button>
+  <div class="credit-card">
+    <div>
+      <div #cardInfo></div>
+      <div class="error" *ngIf="cardError">
+        {{cardError}}
+      </div>
+    </div>
+  </div>
+  <!-- <ion-button [disabled]="products.products.length == 0" (click)="sendOrder()" shape="round" expand="block">Pedir</ion-button> -->
+  <ion-button  (click)="sendOrder()" shape="round" expand="block">Pedir</ion-button>
 </ion-content>

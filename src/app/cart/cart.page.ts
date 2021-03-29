@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { StripeService } from './../stripe.service';
+import { Component, OnInit, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 import { ApiService } from '../services/api.service';
 import { LoadingController } from '@ionic/angular';
@@ -14,14 +15,38 @@ const { Storage } = Plugins;
   providers: [ApiService]
 })
 export class CartPage implements OnInit {
+  @ViewChild('cardInfo') cardInfo: ElementRef;
+  cardError: string;
+  card: any;
+
+
   public products;
   constructor(
     private apiService: ApiService,
     public loadingController: LoadingController,
     public alertController: AlertController,
     private authService: AuthenticationService,
-    private router: Router) { }
+    private router: Router,
+    private ngZone: NgZone,
+    private stripeService: StripeService) { }
 
+  ngAfterViewInit() {
+      this.card = elements.create('card');
+      this.card.mount(this.cardInfo.nativeElement);
+      this.card.addEventListener('change', this.onChange.bind(this))
+  }
+
+  ngOnDestroy() {
+    elements._elements = []
+  }
+
+  onChange({ error }) {
+    if (error) {
+      this.ngZone.run(() => this.cardError = error.message);
+    } else {
+      this.ngZone.run(() => this.cardError = null);
+    }
+  }
   ngOnInit() {
     this.products = history.state
   }
@@ -34,7 +59,7 @@ export class CartPage implements OnInit {
     return total;
   }
 
-  async remove(p){
+  async remove(p) {
     for (var i = 0; i < this.products.products.length; i++) {
       if (this.products.products[i].iD == p.iD) {
         this.products.products.splice(i, 1);
@@ -45,8 +70,16 @@ export class CartPage implements OnInit {
     }
   }
 
-  async sendOrder(){
-    const loading = await this.loadingController.create({
+  async sendOrder() {
+    const { token, error } = await stripe.createToken(this.card);
+    if (token) {
+      await this.stripeService.charge(100, token.id)
+    } else {
+      this.ngZone.run(() => this.cardError = error.message);
+    }
+
+
+    /* const loading = await this.loadingController.create({
       message: 'Cargando...',
       translucent: true,
     });
@@ -85,7 +118,7 @@ export class CartPage implements OnInit {
           await alert.present();
         }
       }
-    )
+    ) */
   }
 
   async logout() {
