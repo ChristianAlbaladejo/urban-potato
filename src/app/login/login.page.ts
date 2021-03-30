@@ -2,6 +2,8 @@ import { AuthenticationService } from '../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, LoadingController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+import { RecoverPage } from '../recover/recover.page'
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular'
 
@@ -19,7 +21,8 @@ export class LoginPage implements OnInit {
     private alertController: AlertController,
     private router: Router,
     private loadingController: LoadingController,
-    public menuCtrl: MenuController
+    public menuCtrl: MenuController,
+    public modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -58,6 +61,13 @@ export class LoginPage implements OnInit {
         await alert.present();
       }
     );
+  }
+
+  async recover() {
+    const modal = await this.modalController.create({
+      component: RecoverPage,
+    });
+    return await modal.present();
   }
 
   // Easy access for form fields

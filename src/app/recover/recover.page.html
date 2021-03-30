@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" >
+      <ion-button color="dark" (click)="closeModal()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Recuperar contraseña</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<form #loginForm="ngForm">
+  <div class="input-group">
+    <ion-item>
+      <ion-input type="email" email [(ngModel)]="email" name="email"></ion-input>
+    </ion-item>
+  </div>
+  <ion-button type="submit" expand="block" [disabled]="!loginForm.form.valid || !email" (click)="recover()">Recuperar</ion-button>
+  </form>
+</ion-content>

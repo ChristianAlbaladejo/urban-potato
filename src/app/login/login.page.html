@@ -8,7 +8,7 @@
   <form (ngSubmit)="login()" [formGroup]="credentials">
     <div class="input-group">
       <ion-item>
-        <ion-input type="email" placeholder="Email" ></ion-input>
+        <ion-input type="email" placeholder="Email" formControlName="email" ></ion-input>
       </ion-item>
       <!-- <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors">
         <span *ngIf="email.errors?.required">Email is required</span>
@@ -23,9 +23,9 @@
       </div>
     </div>
 
-    <ion-button type="submit" expand="block" [disabled]="!credentials.valid">Log in</ion-button>
-    <!-- <ion-button type="button" expand="block" color="light" fill="clear">Not yet a member? Sign up!
-    </ion-button> -->
+    <ion-button type="submit" expand="block" [disabled]="!credentials.valid && !credentials.email">Entrar</ion-button>
+    <ion-button type="button" expand="block" (click)="recover()" color="light" fill="clear">Recuperar contraseña
+    </ion-button>
 
     <!-- <ion-button type="button" expand="block" color="tertiary">
       <ion-icon name="logo-google" slot="start"></ion-icon>
