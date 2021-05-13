@@ -15,8 +15,10 @@
 
     <ion-item (click)="presentActionSheet(top)" *ngFor="let top of artTop">
       <ion-thumbnail slot="start">
-        <ion-img
-          src="https://rockcontent.com/es/wp-content/uploads/2019/02/o-que-e-produto-no-mix-de-marketing-1280x720.png">
+        <!-- <ion-img
+          src="../../assets/product.png">
+        </ion-img> -->
+        <ion-img [src]="top.image">
         </ion-img>
       </ion-thumbnail>
       <ion-label>
@@ -36,7 +38,7 @@
     <ion-item>
       <ion-thumbnail slot="start">
         <ion-img
-          src="https://rockcontent.com/es/wp-content/uploads/2019/02/o-que-e-produto-no-mix-de-marketing-1280x720.png">
+          src="../../assets/product.png">
         </ion-img>
       </ion-thumbnail>
       <ion-label>
@@ -52,7 +54,7 @@
     <ion-item>
       <ion-thumbnail slot="start">
         <ion-img
-          src="https://rockcontent.com/es/wp-content/uploads/2019/02/o-que-e-produto-no-mix-de-marketing-1280x720.png">
+          src="../../assets/product.png">
         </ion-img>
       </ion-thumbnail>
       <ion-label>
@@ -74,7 +76,7 @@
     <ion-item>
       <ion-thumbnail slot="start">
         <ion-img
-          src="https://rockcontent.com/es/wp-content/uploads/2019/02/o-que-e-produto-no-mix-de-marketing-1280x720.png">
+          src="../../assets/product.png">
         </ion-img>
       </ion-thumbnail>
       <ion-label>
@@ -90,7 +92,7 @@
     <ion-item>
       <ion-thumbnail slot="start">
         <ion-img
-          src="https://rockcontent.com/es/wp-content/uploads/2019/02/o-que-e-produto-no-mix-de-marketing-1280x720.png">
+          src="../../assets/product.png">
         </ion-img>
       </ion-thumbnail>
       <ion-label>
@@ -105,7 +107,7 @@
     <ion-item>
       <ion-thumbnail slot="start">
         <ion-img
-          src="https://rockcontent.com/es/wp-content/uploads/2019/02/o-que-e-produto-no-mix-de-marketing-1280x720.png">
+          src="../../assets/product.png">
         </ion-img>
       </ion-thumbnail>
       <ion-label>
@@ -118,11 +120,17 @@
       </div>
     </ion-item>
   </ion-list>
-   <ion-fab vertical="bottom" horizontal="end" slot="fixed" [routerLink]="['/cart']" [state]="{ products: products}">
+   <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed" [routerLink]="['/cart']" [state]="{ products: products}">
     <ion-badge color="danger" style="left: -3px; z-index: 3; position: absolute; top:-2px; border-radius:100%; padding-left: 0.5rem;padding-right: 0.5rem;">{{products.length}}
     </ion-badge>
     <ion-fab-button>
       <ion-icon name="cart"></ion-icon>
     </ion-fab-button>
-  </ion-fab> 
+  </ion-fab>  -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+    <ion-fab-button [routerLink]="['/cart']" [state]="{ products: products}"  color="secondary" #cart>
+      <div class="cart-length">{{ products.length }}</div>
+      <ion-icon name="cart" class="cart-icon"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

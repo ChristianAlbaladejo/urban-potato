@@ -322,8 +322,12 @@ const routes = [
     },
     {
         path: 'login',
-        loadChildren: () => __webpack_require__.e(/*! import() | login-login-module */ "login-login-module").then(__webpack_require__.bind(null, /*! ./login/login.module */ "./src/app/login/login.module.ts")).then(m => m.LoginPageModule),
+        loadChildren: () => Promise.all(/*! import() | login-login-module */[__webpack_require__.e("common"), __webpack_require__.e("login-login-module")]).then(__webpack_require__.bind(null, /*! ./login/login.module */ "./src/app/login/login.module.ts")).then(m => m.LoginPageModule),
         canLoad: [_guards_auto_login_guard__WEBPACK_IMPORTED_MODULE_4__["AutoLoginGuard"]]
+    },
+    {
+        path: 'recover',
+        loadChildren: () => Promise.all(/*! import() | recover-recover-module */[__webpack_require__.e("common"), __webpack_require__.e("recover-recover-module")]).then(__webpack_require__.bind(null, /*! ./recover/recover.module */ "./src/app/recover/recover.module.ts")).then(m => m.RecoverPageModule)
     }
 ];
 let AppRoutingModule = class AppRoutingModule {
@@ -409,6 +413,34 @@ let AppComponent = class AppComponent {
                 icon: 'people'
             }
         ];
+        /* platform.ready().then(() => {
+          statusBar.styleDefault();
+          splashScreen.hide();
+    
+          //Remove this method to stop OneSignal Debugging
+          window["plugins"].OneSignal.setLogLevel({ logLevel: 6, visualLevel: 0 });
+    
+          var notificationOpenedCallback = function (jsonData) {
+            console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+          };
+    
+          // Set your iOS Settings
+          var iosSettings = {};
+          iosSettings["kOSSettingsKeyAutoPrompt"] = false;
+          iosSettings["kOSSettingsKeyInAppLaunchURL"] = false;
+    
+          window["plugins"].OneSignal
+            .startInit("bc9739c3-63f4-4c01-bda1-6c9f442e7675")
+            .handleNotificationOpened(notificationOpenedCallback)
+            .iOSSettings(iosSettings)
+            .inFocusDisplaying(window["plugins"].OneSignal.OSInFocusDisplayOption.Notification)
+            .endInit();
+    
+          // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission (See step 6)
+          window["plugins"].OneSignal.promptForPushNotificationsWithUserResponse(function (accepted) {
+            console.log("User accepted notifications: " + accepted);
+          });
+        }); */
         this.initializeApp();
     }
     initializeApp() {
@@ -672,6 +704,8 @@ __webpack_require__.r(__webpack_exports__);
 
 const { Storage } = _capacitor_core__WEBPACK_IMPORTED_MODULE_5__["Plugins"];
 const TOKEN_KEY = 'my-token';
+const CODCLY = 'my-token';
+const USUARIO = 'my-token';
 let AuthenticationService = class AuthenticationService {
     constructor(http) {
         this.http = http;
@@ -696,13 +730,15 @@ let AuthenticationService = class AuthenticationService {
     login(credentials) {
         let user = [{
                 "USUARIO": credentials.email,
-                "CONTRASEÑA": credentials.password
+                "CONTRASEÑA": credentials.password,
             }];
         let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             'Content-type': 'application/json',
         });
-        return this.http.post(`https://clouddemosjnc.dyndns.org:5001/login`, user, { headers: headers }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])((data) => data), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["switchMap"])(token => {
-            return Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["from"])(Storage.set({ key: TOKEN_KEY, value: token.Token }));
+        return this.http.post(`https://clouddemosjnc.dyndns.org:5002/login`, user, { headers: headers }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])((data) => data), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["switchMap"])(token => {
+            console.log("token" + token);
+            token['User'] = credentials.email;
+            return Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["from"])(Storage.set({ key: TOKEN_KEY, value: JSON.stringify(token) }));
         }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(_ => {
             this.isAuthenticated.next(true);
         }));
@@ -744,6 +780,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const { PushNotifications } = _capacitor_core__WEBPACK_IMPORTED_MODULE_2__["Plugins"];
+const { Storage } = _capacitor_core__WEBPACK_IMPORTED_MODULE_2__["Plugins"];
+const FIREBASE_TOKEN_KEY = 'my-token';
 let FcmService = class FcmService {
     constructor(router) {
         this.router = router;
@@ -765,6 +803,7 @@ let FcmService = class FcmService {
         });
         PushNotifications.addListener('registration', (token) => {
             console.log('My token: ' + JSON.stringify(token));
+            localStorage.setItem('firebaseToken', token.value);
         });
         PushNotifications.addListener('registrationError', (error) => {
             console.log('Error: ' + JSON.stringify(error));

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start" >
       <ion-button color="dark" (click)="closeModal()">
         <ion-icon name="arrow-back"></ion-icon>
@@ -13,9 +13,9 @@
 <form #loginForm="ngForm">
   <div class="input-group">
     <ion-item>
-      <ion-input type="email" email [(ngModel)]="email" name="email"></ion-input>
+      <ion-input type="email" email [(ngModel)]="email" name="email" placeholder="Email"></ion-input>
     </ion-item>
   </div>
-  <ion-button type="submit" expand="block" [disabled]="!loginForm.form.valid || !email" (click)="recover()">Recuperar</ion-button>
+  <ion-button type="submit" expand="block"  shape="round" color="secondary" [disabled]="!loginForm.form.valid || !email" (click)="recover()">Recuperar</ion-button>
   </form>
 </ion-content>

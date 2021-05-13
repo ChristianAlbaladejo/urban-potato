@@ -10,6 +10,10 @@ import { Router } from '@angular/router';
 
 const { PushNotifications } = Plugins;
 
+const { Storage } = Plugins;
+
+const FIREBASE_TOKEN_KEY = 'my-token';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -37,6 +41,7 @@ export class FcmService {
       'registration',
       (token: PushNotificationToken) => {
         console.log('My token: ' + JSON.stringify(token));
+        localStorage.setItem('firebaseToken', token.value)
       }
     );
 

@@ -19,8 +19,10 @@
       </ion-item-options>
     <ion-item>
       <ion-thumbnail slot="start">
-        <ion-img
-          src="https://rockcontent.com/es/wp-content/uploads/2019/02/o-que-e-produto-no-mix-de-marketing-1280x720.png">
+        <!-- <ion-img
+          src="../../assets/product.png">
+        </ion-img> -->
+        <ion-img [src]="p.image">
         </ion-img>
       </ion-thumbnail>
       <ion-label>
@@ -41,19 +43,19 @@
     </ion-item>
   </ion-list>
 
-  <ion-radio-group value="credito">
+  <ion-radio-group value="credito" >
     <ion-list-header>
       <ion-label>Forma de pago</ion-label>
     </ion-list-header>
 
     <ion-item>
       <ion-label>Crédito</ion-label>
-      <ion-radio slot="start" value="credito"></ion-radio>
+      <ion-radio slot="start" value="credito" color="secondary"></ion-radio>
     </ion-item>
 
     <ion-item>
       <ion-label>Efectivo</ion-label>
-      <ion-radio slot="start" value="efectivo"></ion-radio>
+      <ion-radio slot="start" value="efectivo" color="secondary"></ion-radio>
     </ion-item>
 
   </ion-radio-group>
@@ -62,17 +64,22 @@
     <ion-list-header>Envio</ion-list-header>
     <ion-item>
       <ion-label>Pedido urgente</ion-label>
-      <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
+      <ion-checkbox color="secondary" checked slot="start"></ion-checkbox>
     </ion-item>
   </ion-list>
-  <div class="credit-card">
-    <div>
-      <div #cardInfo></div>
-      <div class="error" *ngIf="cardError">
-        {{cardError}}
+  <ion-list>
+    <ion-item>
+    <div class="credit-card">
+      <div>
+        <div #cardInfo></div>
+        <div class="error" *ngIf="cardError">
+          {{cardError}}
+        </div>
       </div>
     </div>
-  </div>
+    </ion-item>
+  </ion-list>
+  
   <!-- <ion-button [disabled]="products.products.length == 0" (click)="sendOrder()" shape="round" expand="block">Pedir</ion-button> -->
-  <ion-button  (click)="sendOrder()" shape="round" expand="block">Pedir</ion-button>
+  <ion-button  (click)="sendOrder()" color="secondary" shape="round" expand="block">Pedir</ion-button>
 </ion-content>

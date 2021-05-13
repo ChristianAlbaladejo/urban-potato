@@ -9,31 +9,20 @@ const USER = '';
   providedIn: 'root'
 })
 export class StripeService {
+  public token;
 
   constructor(private http: HttpClient) { }
 
-  async charge(cantidad, tokenId){
-    let token = await Storage.get({ key: TOKEN_KEY });
-    console.log(token.value);
+  async charge(cantidad, tokenId) {
+    this.token = await Storage.get({ key: TOKEN_KEY });
+    this.token = JSON.parse(this.token.value)
     let headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=UTF-8"',
-      'Authorization': 'Bearer ' + token.value
+      'Authorization': 'Bearer ' + this.token.Token
     });
-    return this.http.post('http://192.168.200.234:5001/PagoStripe', {
+    return this.http.post('https://clouddemosjnc.dyndns.org:5002/PagoStripe', {
       stripeToken: tokenId,
-      cantidad: cantidad,
-      Token: this.getTimeStamp()
+      cantidad: cantidad * 100,
     }, { headers: headers }).toPromise();
-  }
-
-
-  getTimeStamp() {
-    var Xmas = new Date();
-    let date = new Date(Xmas.getFullYear() + "-" + ("0" + (Xmas.getMonth() + 1)).slice(-2) + "-" + ("0" + (Xmas.getDate())).slice(-2) + " " + ("0" + (Xmas.getHours())).slice(-2) + ":00:00").getTime() / 1000;
-    let payload = ((Number(date) / ((Number(("0" + Xmas.getDate()).slice(-2)) * Number(Xmas.getFullYear())))) / (Number(("0" + (Xmas.getMonth() + 1)).slice(-2)) + 0.5)) * 1000000000000
-    var output = [String(payload).slice(0, Xmas.getMonth() + 1), 'h', String(payload).slice(Xmas.getMonth() + 1)].join('');
-    console.log(output);
-
-    return String(output)
   }
 }

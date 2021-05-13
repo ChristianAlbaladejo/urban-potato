@@ -9,7 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-title>Higiesmur App</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <form (ngSubmit)=\"login()\" [formGroup]=\"credentials\">\n    <div class=\"input-group\">\n      <ion-item>\n        <ion-input type=\"email\" placeholder=\"Email\" ></ion-input>\n      </ion-item>\n      <!-- <div *ngIf=\"(email.dirty || email.touched) && email.errors\" class=\"errors\">\n        <span *ngIf=\"email.errors?.required\">Email is required</span>\n        <span *ngIf=\"email.errors?.email\">Email is invalid</span>\n      </div> -->\n      <ion-item>\n        <ion-input type=\"password\" placeholder=\"Password\" formControlName=\"password\"></ion-input>\n      </ion-item>\n      <div *ngIf=\"(password.dirty || password.touched) && password.errors\" class=\"errors\">\n        <span *ngIf=\"password.errors?.required\">Password is required</span>\n        <span *ngIf=\"password.errors?.minlength\">Password needs to be 6 characters</span>\n      </div>\n    </div>\n\n    <ion-button type=\"submit\" expand=\"block\" [disabled]=\"!credentials.valid\">Log in</ion-button>\n    <!-- <ion-button type=\"button\" expand=\"block\" color=\"light\" fill=\"clear\">Not yet a member? Sign up!\n    </ion-button> -->\n\n    <!-- <ion-button type=\"button\" expand=\"block\" color=\"tertiary\">\n      <ion-icon name=\"logo-google\" slot=\"start\"></ion-icon>\n      Sign in with Google\n    </ion-button>\n    <ion-button type=\"button\" expand=\"block\" color=\"tertiary\">\n      <ion-icon name=\"logo-apple\" slot=\"start\"></ion-icon>\n      Sign in with Apple\n    </ion-button> -->\n  </form>\n</ion-content>");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-title>Higiesmur App</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <form (ngSubmit)=\"login()\" [formGroup]=\"credentials\">\n    <div class=\"input-group\">\n      <ion-item>\n        <ion-input type=\"email\" placeholder=\"Email\" formControlName=\"email\" ></ion-input>\n      </ion-item>\n      <!-- <div *ngIf=\"(email.dirty || email.touched) && email.errors\" class=\"errors\">\n        <span *ngIf=\"email.errors?.required\">Email is required</span>\n        <span *ngIf=\"email.errors?.email\">Email is invalid</span>\n      </div> -->\n      <ion-item>\n        <ion-input type=\"password\" placeholder=\"Password\" formControlName=\"password\"></ion-input>\n      </ion-item>\n      <div *ngIf=\"(password.dirty || password.touched) && password.errors\" class=\"errors\">\n        <span *ngIf=\"password.errors?.required\">Password is required</span>\n        <span *ngIf=\"password.errors?.minlength\">Password needs to be 6 characters</span>\n      </div>\n    </div>\n\n    <ion-button type=\"submit\" expand=\"block\" [disabled]=\"!credentials.valid && !credentials.email\">Entrar</ion-button>\n    <ion-button type=\"button\" expand=\"block\" (click)=\"recover()\" color=\"light\" fill=\"clear\">Recuperar contraseña\n    </ion-button>\n\n    <!-- <ion-button type=\"button\" expand=\"block\" color=\"tertiary\">\n      <ion-icon name=\"logo-google\" slot=\"start\"></ion-icon>\n      Sign in with Google\n    </ion-button>\n    <ion-button type=\"button\" expand=\"block\" color=\"tertiary\">\n      <ion-icon name=\"logo-apple\" slot=\"start\"></ion-icon>\n      Sign in with Apple\n    </ion-button> -->\n  </form>\n</ion-content>");
 
 /***/ }),
 
@@ -121,7 +121,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/__ivy_ngcc__/fesm2015/forms.js");
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ionic/angular */ "./node_modules/@ionic/angular/__ivy_ngcc__/fesm2015/ionic-angular.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+/* harmony import */ var _recover_recover_page__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../recover/recover.page */ "./src/app/recover/recover.page.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+/* harmony import */ var _services_api_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/api.service */ "./src/app/services/api.service.ts");
+
+
+
 
 
 
@@ -130,18 +135,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let LoginPage = class LoginPage {
-    constructor(fb, authService, alertController, router, loadingController, menuCtrl) {
+    constructor(fb, authService, apiService, alertController, router, loadingController, menuCtrl, modalController) {
         this.fb = fb;
         this.authService = authService;
+        this.apiService = apiService;
         this.alertController = alertController;
         this.router = router;
         this.loadingController = loadingController;
         this.menuCtrl = menuCtrl;
+        this.modalController = modalController;
     }
     ngOnInit() {
         this.credentials = this.fb.group({
-            email: ['usuario'],
-            password: ['password'],
+            email: ['Usuario1'],
+            password: ['Usuario1'],
         });
     }
     ionViewDidEnter() {
@@ -156,10 +163,11 @@ let LoginPage = class LoginPage {
             yield loading.present();
             this.authService.login(this.credentials.value).subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
                 console.log(res);
+                this.sendFirebase();
                 yield loading.dismiss();
                 this.router.navigateByUrl('/folder/Inbox', { replaceUrl: true });
-            }), (res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-                console.log(res);
+            }), (err) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+                console.log(err);
                 yield loading.dismiss();
                 const alert = yield this.alertController.create({
                     header: 'Error',
@@ -168,6 +176,23 @@ let LoginPage = class LoginPage {
                 });
                 yield alert.present();
             }));
+        });
+    }
+    sendFirebase() {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            (yield this.apiService.sendFirebaseToken()).subscribe((res) => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+                console.log(res);
+            }), (err) => {
+                console.error("deb " + err);
+            });
+        });
+    }
+    recover() {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            const modal = yield this.modalController.create({
+                component: _recover_recover_page__WEBPACK_IMPORTED_MODULE_5__["RecoverPage"],
+            });
+            return yield modal.present();
         });
     }
     // Easy access for form fields
@@ -181,15 +206,18 @@ let LoginPage = class LoginPage {
 LoginPage.ctorParameters = () => [
     { type: _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"] },
     { type: _services_authentication_service__WEBPACK_IMPORTED_MODULE_1__["AuthenticationService"] },
+    { type: _services_api_service__WEBPACK_IMPORTED_MODULE_7__["ApiService"] },
     { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["AlertController"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"] },
     { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["LoadingController"] },
-    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["MenuController"] }
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["MenuController"] },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["ModalController"] }
 ];
 LoginPage = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
         selector: 'app-login',
         template: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! raw-loader!./login.page.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/login/login.page.html")).default,
+        providers: [_services_api_service__WEBPACK_IMPORTED_MODULE_7__["ApiService"]],
         styles: [Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! ./login.page.scss */ "./src/app/login/login.page.scss")).default]
     })
 ], LoginPage);

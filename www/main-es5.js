@@ -242,15 +242,26 @@
       }, {
         path: 'login',
         loadChildren: function loadChildren() {
-          return __webpack_require__.e(
+          return Promise.all(
           /*! import() | login-login-module */
-          "login-login-module").then(__webpack_require__.bind(null,
+          [__webpack_require__.e("common"), __webpack_require__.e("login-login-module")]).then(__webpack_require__.bind(null,
           /*! ./login/login.module */
           "./src/app/login/login.module.ts")).then(function (m) {
             return m.LoginPageModule;
           });
         },
         canLoad: [_guards_auto_login_guard__WEBPACK_IMPORTED_MODULE_4__["AutoLoginGuard"]]
+      }, {
+        path: 'recover',
+        loadChildren: function loadChildren() {
+          return Promise.all(
+          /*! import() | recover-recover-module */
+          [__webpack_require__.e("common"), __webpack_require__.e("recover-recover-module")]).then(__webpack_require__.bind(null,
+          /*! ./recover/recover.module */
+          "./src/app/recover/recover.module.ts")).then(function (m) {
+            return m.RecoverPageModule;
+          });
+        }
       }];
 
       var AppRoutingModule = function AppRoutingModule() {
@@ -386,6 +397,30 @@
             url: '/visitas',
             icon: 'people'
           }];
+          /* platform.ready().then(() => {
+            statusBar.styleDefault();
+            splashScreen.hide();
+                  //Remove this method to stop OneSignal Debugging
+            window["plugins"].OneSignal.setLogLevel({ logLevel: 6, visualLevel: 0 });
+                  var notificationOpenedCallback = function (jsonData) {
+              console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+            };
+                  // Set your iOS Settings
+            var iosSettings = {};
+            iosSettings["kOSSettingsKeyAutoPrompt"] = false;
+            iosSettings["kOSSettingsKeyInAppLaunchURL"] = false;
+                  window["plugins"].OneSignal
+              .startInit("bc9739c3-63f4-4c01-bda1-6c9f442e7675")
+              .handleNotificationOpened(notificationOpenedCallback)
+              .iOSSettings(iosSettings)
+              .inFocusDisplaying(window["plugins"].OneSignal.OSInFocusDisplayOption.Notification)
+              .endInit();
+                  // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission (See step 6)
+            window["plugins"].OneSignal.promptForPushNotificationsWithUserResponse(function (accepted) {
+              console.log("User accepted notifications: " + accepted);
+            });
+          }); */
+
           this.initializeApp();
         }
 
@@ -861,6 +896,8 @@
 
       var Storage = _capacitor_core__WEBPACK_IMPORTED_MODULE_5__["Plugins"].Storage;
       var TOKEN_KEY = 'my-token';
+      var CODCLY = 'my-token';
+      var USUARIO = 'my-token';
 
       var AuthenticationService = /*#__PURE__*/function () {
         function AuthenticationService(http) {
@@ -918,14 +955,16 @@
             var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
               'Content-type': 'application/json'
             });
-            return this.http.post("https://clouddemosjnc.dyndns.org:5001/login", user, {
+            return this.http.post("https://clouddemosjnc.dyndns.org:5002/login", user, {
               headers: headers
             }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (data) {
               return data;
             }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["switchMap"])(function (token) {
+              console.log("token" + token);
+              token['User'] = credentials.email;
               return Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["from"])(Storage.set({
                 key: TOKEN_KEY,
-                value: token.Token
+                value: JSON.stringify(token)
               }));
             }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["tap"])(function (_) {
               _this4.isAuthenticated.next(true);
@@ -1001,6 +1040,8 @@
       "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
 
       var PushNotifications = _capacitor_core__WEBPACK_IMPORTED_MODULE_2__["Plugins"].PushNotifications;
+      var Storage = _capacitor_core__WEBPACK_IMPORTED_MODULE_2__["Plugins"].Storage;
+      var FIREBASE_TOKEN_KEY = 'my-token';
 
       var FcmService = /*#__PURE__*/function () {
         function FcmService(router) {
@@ -1030,6 +1071,7 @@
             });
             PushNotifications.addListener('registration', function (token) {
               console.log('My token: ' + JSON.stringify(token));
+              localStorage.setItem('firebaseToken', token.value);
             });
             PushNotifications.addListener('registrationError', function (error) {
               console.log('Error: ' + JSON.stringify(error));

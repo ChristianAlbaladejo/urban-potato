@@ -22,7 +22,7 @@
       /* harmony default export */
 
 
-      __webpack_exports__["default"] = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-title>Higiesmur App</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <form (ngSubmit)=\"login()\" [formGroup]=\"credentials\">\n    <div class=\"input-group\">\n      <ion-item>\n        <ion-input type=\"email\" placeholder=\"Email\" ></ion-input>\n      </ion-item>\n      <!-- <div *ngIf=\"(email.dirty || email.touched) && email.errors\" class=\"errors\">\n        <span *ngIf=\"email.errors?.required\">Email is required</span>\n        <span *ngIf=\"email.errors?.email\">Email is invalid</span>\n      </div> -->\n      <ion-item>\n        <ion-input type=\"password\" placeholder=\"Password\" formControlName=\"password\"></ion-input>\n      </ion-item>\n      <div *ngIf=\"(password.dirty || password.touched) && password.errors\" class=\"errors\">\n        <span *ngIf=\"password.errors?.required\">Password is required</span>\n        <span *ngIf=\"password.errors?.minlength\">Password needs to be 6 characters</span>\n      </div>\n    </div>\n\n    <ion-button type=\"submit\" expand=\"block\" [disabled]=\"!credentials.valid\">Log in</ion-button>\n    <!-- <ion-button type=\"button\" expand=\"block\" color=\"light\" fill=\"clear\">Not yet a member? Sign up!\n    </ion-button> -->\n\n    <!-- <ion-button type=\"button\" expand=\"block\" color=\"tertiary\">\n      <ion-icon name=\"logo-google\" slot=\"start\"></ion-icon>\n      Sign in with Google\n    </ion-button>\n    <ion-button type=\"button\" expand=\"block\" color=\"tertiary\">\n      <ion-icon name=\"logo-apple\" slot=\"start\"></ion-icon>\n      Sign in with Apple\n    </ion-button> -->\n  </form>\n</ion-content>";
+      __webpack_exports__["default"] = "<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-title>Higiesmur App</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  <form (ngSubmit)=\"login()\" [formGroup]=\"credentials\">\n    <div class=\"input-group\">\n      <ion-item>\n        <ion-input type=\"email\" placeholder=\"Email\" formControlName=\"email\" ></ion-input>\n      </ion-item>\n      <!-- <div *ngIf=\"(email.dirty || email.touched) && email.errors\" class=\"errors\">\n        <span *ngIf=\"email.errors?.required\">Email is required</span>\n        <span *ngIf=\"email.errors?.email\">Email is invalid</span>\n      </div> -->\n      <ion-item>\n        <ion-input type=\"password\" placeholder=\"Password\" formControlName=\"password\"></ion-input>\n      </ion-item>\n      <div *ngIf=\"(password.dirty || password.touched) && password.errors\" class=\"errors\">\n        <span *ngIf=\"password.errors?.required\">Password is required</span>\n        <span *ngIf=\"password.errors?.minlength\">Password needs to be 6 characters</span>\n      </div>\n    </div>\n\n    <ion-button type=\"submit\" expand=\"block\" [disabled]=\"!credentials.valid && !credentials.email\">Entrar</ion-button>\n    <ion-button type=\"button\" expand=\"block\" (click)=\"recover()\" color=\"light\" fill=\"clear\">Recuperar contraseña\n    </ion-button>\n\n    <!-- <ion-button type=\"button\" expand=\"block\" color=\"tertiary\">\n      <ion-icon name=\"logo-google\" slot=\"start\"></ion-icon>\n      Sign in with Google\n    </ion-button>\n    <ion-button type=\"button\" expand=\"block\" color=\"tertiary\">\n      <ion-icon name=\"logo-apple\" slot=\"start\"></ion-icon>\n      Sign in with Apple\n    </ion-button> -->\n  </form>\n</ion-content>";
       /***/
     },
 
@@ -231,28 +231,42 @@
       /* harmony import */
 
 
-      var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+      var _recover_recover_page__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+      /*! ../recover/recover.page */
+      "./src/app/recover/recover.page.ts");
+      /* harmony import */
+
+
+      var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
       /*! @angular/router */
       "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+      /* harmony import */
+
+
+      var _services_api_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+      /*! ../services/api.service */
+      "./src/app/services/api.service.ts");
 
       var LoginPage = /*#__PURE__*/function () {
-        function LoginPage(fb, authService, alertController, router, loadingController, menuCtrl) {
+        function LoginPage(fb, authService, apiService, alertController, router, loadingController, menuCtrl, modalController) {
           _classCallCheck(this, LoginPage);
 
           this.fb = fb;
           this.authService = authService;
+          this.apiService = apiService;
           this.alertController = alertController;
           this.router = router;
           this.loadingController = loadingController;
           this.menuCtrl = menuCtrl;
+          this.modalController = modalController;
         }
 
         _createClass(LoginPage, [{
           key: "ngOnInit",
           value: function ngOnInit() {
             this.credentials = this.fb.group({
-              email: ['usuario'],
-              password: ['password']
+              email: ['Usuario1'],
+              password: ['Usuario1']
             });
           }
         }, {
@@ -292,29 +306,30 @@
                               switch (_context.prev = _context.next) {
                                 case 0:
                                   console.log(res);
-                                  _context.next = 3;
+                                  this.sendFirebase();
+                                  _context.next = 4;
                                   return loading.dismiss();
 
-                                case 3:
+                                case 4:
                                   this.router.navigateByUrl('/folder/Inbox', {
                                     replaceUrl: true
                                   });
 
-                                case 4:
+                                case 5:
                                 case "end":
                                   return _context.stop();
                               }
                             }
                           }, _callee, this);
                         }));
-                      }, function (res) {
+                      }, function (err) {
                         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
                           var alert;
                           return regeneratorRuntime.wrap(function _callee2$(_context2) {
                             while (1) {
                               switch (_context2.prev = _context2.next) {
                                 case 0:
-                                  console.log(res);
+                                  console.log(err);
                                   _context2.next = 3;
                                   return loading.dismiss();
 
@@ -347,6 +362,77 @@
                 }
               }, _callee3, this);
             }));
+          }
+        }, {
+          key: "sendFirebase",
+          value: function sendFirebase() {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+              var _this2 = this;
+
+              return regeneratorRuntime.wrap(function _callee5$(_context5) {
+                while (1) {
+                  switch (_context5.prev = _context5.next) {
+                    case 0:
+                      _context5.next = 2;
+                      return this.apiService.sendFirebaseToken();
+
+                    case 2:
+                      _context5.sent.subscribe(function (res) {
+                        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(_this2, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+                          return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                            while (1) {
+                              switch (_context4.prev = _context4.next) {
+                                case 0:
+                                  console.log(res);
+
+                                case 1:
+                                case "end":
+                                  return _context4.stop();
+                              }
+                            }
+                          }, _callee4);
+                        }));
+                      }, function (err) {
+                        console.error("deb " + err);
+                      });
+
+                    case 3:
+                    case "end":
+                      return _context5.stop();
+                  }
+                }
+              }, _callee5, this);
+            }));
+          }
+        }, {
+          key: "recover",
+          value: function recover() {
+            return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+              var modal;
+              return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                while (1) {
+                  switch (_context6.prev = _context6.next) {
+                    case 0:
+                      _context6.next = 2;
+                      return this.modalController.create({
+                        component: _recover_recover_page__WEBPACK_IMPORTED_MODULE_5__["RecoverPage"]
+                      });
+
+                    case 2:
+                      modal = _context6.sent;
+                      _context6.next = 5;
+                      return modal.present();
+
+                    case 5:
+                      return _context6.abrupt("return", _context6.sent);
+
+                    case 6:
+                    case "end":
+                      return _context6.stop();
+                  }
+                }
+              }, _callee6, this);
+            }));
           } // Easy access for form fields
 
         }, {
@@ -370,13 +456,17 @@
         }, {
           type: _services_authentication_service__WEBPACK_IMPORTED_MODULE_1__["AuthenticationService"]
         }, {
+          type: _services_api_service__WEBPACK_IMPORTED_MODULE_7__["ApiService"]
+        }, {
           type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["AlertController"]
         }, {
-          type: _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]
+          type: _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"]
         }, {
           type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["LoadingController"]
         }, {
           type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["MenuController"]
+        }, {
+          type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["ModalController"]
         }];
       };
 
@@ -385,6 +475,7 @@
         template: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(
         /*! raw-loader!./login.page.html */
         "./node_modules/raw-loader/dist/cjs.js!./src/app/login/login.page.html"))["default"],
+        providers: [_services_api_service__WEBPACK_IMPORTED_MODULE_7__["ApiService"]],
         styles: [Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(
         /*! ./login.page.scss */
         "./src/app/login/login.page.scss"))["default"]]

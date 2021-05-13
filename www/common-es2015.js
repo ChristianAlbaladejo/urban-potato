@@ -434,6 +434,98 @@ const openURL = async (url, ev, direction, animation) => {
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/recover/recover.page.html":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/recover/recover.page.html ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n  <ion-toolbar color=\"primary\">\n    <ion-buttons slot=\"start\" >\n      <ion-button color=\"dark\" (click)=\"closeModal()\">\n        <ion-icon name=\"arrow-back\"></ion-icon>\n      </ion-button>\n    </ion-buttons>\n    <ion-title>Recuperar contraseña</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n<form #loginForm=\"ngForm\">\n  <div class=\"input-group\">\n    <ion-item>\n      <ion-input type=\"email\" email [(ngModel)]=\"email\" name=\"email\"></ion-input>\n    </ion-item>\n  </div>\n  <ion-button type=\"submit\" expand=\"block\" [disabled]=\"!loginForm.form.valid || !email\" (click)=\"recover()\">Recuperar</ion-button>\n  </form>\n</ion-content>\n");
+
+/***/ }),
+
+/***/ "./src/app/recover/recover.page.scss":
+/*!*******************************************!*\
+  !*** ./src/app/recover/recover.page.scss ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("ion-content {\n  --padding-top: 10rem;\n  --padding-start: 10%;\n  --padding-end: 10%;\n  --background: url(\"https://images.unsplash.com/photo-1536431311719-398b6704d4cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80\") 0 0/100% 100% no-repeat;\n}\n\n.input-group {\n  background: #fff;\n  border-radius: 10px;\n  overflow: hidden;\n  margin-bottom: 3em;\n}\n\n.errors {\n  font-size: small;\n  color: #fff;\n  background: var(--ion-color-danger);\n  padding-left: 15px;\n  padding-top: 5px;\n  padding-bottom: 5px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcmVjb3Zlci9yZWNvdmVyLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLG9CQUFBO0VBQ0Esb0JBQUE7RUFDQSxrQkFBQTtFQUNBLG1MQUFBO0FBQ0o7O0FBRUE7RUFDSSxnQkFBQTtFQUNBLG1CQUFBO0VBQ0EsZ0JBQUE7RUFDQSxrQkFBQTtBQUNKOztBQUVBO0VBQ0ksZ0JBQUE7RUFDQSxXQUFBO0VBQ0EsbUNBQUE7RUFDQSxrQkFBQTtFQUNBLGdCQUFBO0VBQ0EsbUJBQUE7QUFDSiIsImZpbGUiOiJzcmMvYXBwL3JlY292ZXIvcmVjb3Zlci5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyJpb24tY29udGVudCB7XHJcbiAgICAtLXBhZGRpbmctdG9wOiAxMHJlbTtcclxuICAgIC0tcGFkZGluZy1zdGFydDogMTAlO1xyXG4gICAgLS1wYWRkaW5nLWVuZDogMTAlO1xyXG4gICAgLS1iYWNrZ3JvdW5kOiB1cmwoJ2h0dHBzOi8vaW1hZ2VzLnVuc3BsYXNoLmNvbS9waG90by0xNTM2NDMxMzExNzE5LTM5OGI2NzA0ZDRjYz9peGxpYj1yYi0xLjIuMSZpeGlkPWV5SmhjSEJmYVdRaU9qRXlNRGQ5JmF1dG89Zm9ybWF0JmZpdD1jcm9wJnc9MTIzNCZxPTgwJykgMCAwLzEwMCUgMTAwJSBuby1yZXBlYXQ7XHJcbn1cclxuIFxyXG4uaW5wdXQtZ3JvdXAge1xyXG4gICAgYmFja2dyb3VuZDogI2ZmZjtcclxuICAgIGJvcmRlci1yYWRpdXM6IDEwcHg7XHJcbiAgICBvdmVyZmxvdzogaGlkZGVuO1xyXG4gICAgbWFyZ2luLWJvdHRvbTogM2VtO1xyXG59XHJcbiBcclxuLmVycm9ycyB7XHJcbiAgICBmb250LXNpemU6IHNtYWxsO1xyXG4gICAgY29sb3I6ICNmZmY7XHJcbiAgICBiYWNrZ3JvdW5kOiB2YXIoLS1pb24tY29sb3ItZGFuZ2VyKTtcclxuICAgIHBhZGRpbmctbGVmdDogMTVweDtcclxuICAgIHBhZGRpbmctdG9wOiA1cHg7XHJcbiAgICBwYWRkaW5nLWJvdHRvbTogNXB4O1xyXG59Il19 */");
+
+/***/ }),
+
+/***/ "./src/app/recover/recover.page.ts":
+/*!*****************************************!*\
+  !*** ./src/app/recover/recover.page.ts ***!
+  \*****************************************/
+/*! exports provided: RecoverPage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RecoverPage", function() { return RecoverPage; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _services_authentication_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/authentication.service */ "./src/app/services/authentication.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/__ivy_ngcc__/fesm2015/forms.js");
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ionic/angular */ "./node_modules/@ionic/angular/__ivy_ngcc__/fesm2015/ionic-angular.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/__ivy_ngcc__/fesm2015/router.js");
+
+
+
+
+
+
+
+
+let RecoverPage = class RecoverPage {
+    constructor(fb, authService, alertController, router, loadingController, menuCtrl, modalController) {
+        this.fb = fb;
+        this.authService = authService;
+        this.alertController = alertController;
+        this.router = router;
+        this.loadingController = loadingController;
+        this.menuCtrl = menuCtrl;
+        this.modalController = modalController;
+        this.email = "";
+    }
+    ngOnInit() {
+    }
+    closeModal() {
+        this.modalController.dismiss();
+    }
+    recover() {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+        });
+    }
+};
+RecoverPage.ctorParameters = () => [
+    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"] },
+    { type: _services_authentication_service__WEBPACK_IMPORTED_MODULE_1__["AuthenticationService"] },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["AlertController"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"] },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["LoadingController"] },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["MenuController"] },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["ModalController"] }
+];
+RecoverPage = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
+        selector: 'app-recover',
+        template: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! raw-loader!./recover.page.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/recover/recover.page.html")).default,
+        styles: [Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(/*! ./recover.page.scss */ "./src/app/recover/recover.page.scss")).default]
+    })
+], RecoverPage);
+
+
+
+/***/ }),
+
 /***/ "./src/app/services/api.service.ts":
 /*!*****************************************!*\
   !*** ./src/app/services/api.service.ts ***!
@@ -454,63 +546,96 @@ __webpack_require__.r(__webpack_exports__);
 
 const { Storage } = _capacitor_core__WEBPACK_IMPORTED_MODULE_3__["Plugins"];
 const TOKEN_KEY = 'my-token';
+const FIREBASE_TOKEN_KEY = 'my-token';
 const USER = '';
+const CODCLY = 'my-token';
+const USUARIO = 'my-token';
 let ApiService = class ApiService {
     constructor(_http) {
         this._http = _http;
     }
     getProductsImages() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-            let token = yield Storage.get({ key: TOKEN_KEY });
-            console.log(token.value);
+            this.token = yield Storage.get({ key: TOKEN_KEY });
+            this.token = JSON.parse(this.token.value);
+            console.log("token" + this.token.Token);
             let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json; charset=UTF-8"',
-                'Authorization': 'Bearer ' + token.value
+                'Authorization': 'Bearer ' + this.token.Token,
             });
-            return this._http.get('https://clouddemosjnc.dyndns.org:5001/DescargaDocumento/ObtenerImagenes?imagenes=79', { headers: headers });
+            return this._http.get('https://clouddemosjnc.dyndns.org:5002/DescargaDocumento/ObtenerImagenes?imagenes=79,80', { headers: headers });
         });
     }
     getProductsTop() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-            let token = yield Storage.get({ key: TOKEN_KEY });
-            console.log(token.value);
+            this.token = yield Storage.get({ key: TOKEN_KEY });
+            this.token = JSON.parse(this.token.value);
+            console.log("token" + this.token.Token);
             let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-                'Content-Type': 'application/json; charset=UTF-8"',
-                'Authorization': 'Bearer ' + token.value
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Authorization': 'Bearer ' + this.token.Token,
             });
-            return this._http.get('https://clouddemosjnc.dyndns.org:5001/consulta/articulo?campos=TOP (15) ARTALIAS ,CODART,ID ,DESCART ,PRCCOMPRA', { headers: headers });
+            console.log(headers);
+            return this._http.get('https://clouddemosjnc.dyndns.org:5002/consulta/articulo?campos=TOP (15) ARTALIAS ,CODART,ID ,DESCART ,PRCCOMPRA', { headers: headers });
         });
     }
     getInvoice() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-            let token = yield Storage.get({ key: TOKEN_KEY });
-            let user = yield Storage.get({ key: USER });
+            this.token = yield Storage.get({ key: TOKEN_KEY });
+            console.log("token" + this.token.Token);
             let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-                'Content-Type': 'application/json; charset=UTF-8"',
-                'Authorization': 'Bearer ' + token.value
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Authorization': 'Bearer ' + this.token.Token,
             });
-            return this._http.get('https//clouddemosjnc.dyndns.org:5001/consulta/cabefacv?filtar=codcli=' + user.value, { headers: headers });
+            console.log(headers);
+            return this._http.get('https//clouddemosjnc.dyndns.org:5002/consulta/cabefacv?filtar=codcli=' + this.token.User, { headers: headers });
         });
     }
     getPdf(id) {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-            let token = yield Storage.get({ key: TOKEN_KEY });
+            this.token = yield Storage.get({ key: TOKEN_KEY });
+            this.token = JSON.parse(this.token.value);
+            console.log("token" + this.token.Token);
             let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-                'Content-Type': 'application/json; charset=UTF-8"',
-                'Authorization': 'Bearer ' + token.value
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Authorization': 'Bearer ' + this.token.Token,
             });
-            return this._http.get('https://clouddemosjnc.dyndns.org:5001/DescargaDocumento/LSTIMPRALBV/drive?parametros=identificador=' + id, { headers: headers });
+            console.log(headers);
+            return this._http.get('https://clouddemosjnc.dyndns.org:5002/DescargaDocumento/LSTIMPRALBV/drive?parametros=identificador=' + id, { headers: headers });
         });
     }
     sendOrder(body) {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-            let token = yield Storage.get({ key: TOKEN_KEY });
+            this.token = yield Storage.get({ key: TOKEN_KEY });
+            this.token = JSON.parse(this.token.value);
             let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json; charset=UTF-8"',
-                'Authorization': 'Bearer ' + token.value
+                'Authorization': 'Bearer ' + this.token.Token,
             });
+            console.log(body[0]);
+            return this._http.post('https://clouddemosjnc.dyndns.org:5002/pedido/v', body, { headers: headers });
+        });
+    }
+    sendFirebaseToken() {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            this.token = yield Storage.get({ key: TOKEN_KEY });
+            this.token = JSON.parse(this.token.value);
+            console.log(this.token.value);
+            let firebaseToken = localStorage.getItem('firebaseToken');
+            /*   let tokenFirebase = await Storage.get({ key: FIREBASE_TOKEN_KEY });
+              let usuario = await Storage.get({ key: USUARIO });
+              let userCodCli = await Storage.get({ key: CODCLY }); */
+            let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
+                'Content-Type': 'application/json; charset=UTF-8"',
+                'Authorization': 'Bearer ' + this.token.Token,
+            });
+            let body = [{
+                    "CodCli": this.token.CodCli.trim(),
+                    "Usuario": this.token.User,
+                    "TokenEnvio": firebaseToken,
+                }];
             console.log(body);
-            return this._http.post('https://clouddemosjnc.dyndns.org:5001/pedido', body, { headers: headers });
+            return this._http.post('https://clouddemosjnc.dyndns.org:5002/GuardaTokenEnvio', body, { headers: headers });
         });
     }
     getString() {

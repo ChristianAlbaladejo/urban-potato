@@ -31,9 +31,9 @@ export class CartPage implements OnInit {
     private stripeService: StripeService) { }
 
   ngAfterViewInit() {
-      this.card = elements.create('card');
-      this.card.mount(this.cardInfo.nativeElement);
-      this.card.addEventListener('change', this.onChange.bind(this))
+    this.card = elements.create('card');
+    this.card.mount(this.cardInfo.nativeElement);
+    this.card.addEventListener('change', this.onChange.bind(this))
   }
 
   ngOnDestroy() {
@@ -71,54 +71,54 @@ export class CartPage implements OnInit {
   }
 
   async sendOrder() {
-    const { token, error } = await stripe.createToken(this.card);
-    if (token) {
-      await this.stripeService.charge(100, token.id)
-    } else {
-      this.ngZone.run(() => this.cardError = error.message);
-    }
-
-
-    /* const loading = await this.loadingController.create({
+    const loading = await this.loadingController.create({
       message: 'Cargando...',
       translucent: true,
     });
     await loading.present();
-    let lines = [];
-    for (let i = 0; i <  this.products.products.length; i++) {
-      lines.push(this.products.products)
-      lines
-      
-    }
-    let order = [{ 
-      "FECHA": "01/09/2020", 
-      "CODCLI": "1", 
-      "CODALM": "1", 
-      "ESTADO": "AC", 
-      "FECENTREGA": "02/09/2020", 
-      "SITUACION": "A", 
-      "lineas": [{ lines
-         }] 
-        }];
-    (await this.apiService.sendOrder(order)).subscribe(
-      (response) => {
-        console.log(response);
-        
-      }, async (error) => {
-        console.log(error)
-        if (error.status === 401) {
-          this.logout();
-          this.loadingController.dismiss();
-        } else {
-          const alert = await this.alertController.create({
-            header: 'Error',
-            subHeader: 'Parece que hay problemas',
-            buttons: ['OK']
-          });
-          await alert.present();
-        }
+    const { token, error } = await stripe.createToken(this.card);
+    if (token) {
+      await this.stripeService.charge(this.getTotal(), token.id)
+      let lines = [];
+      for (let i = 0; i < this.products.products.length; i++) {
+        lines.push({
+          "CODART": this.products.products[i].cODART,
+          "UNIDADES": this.products.products[i].quantity
+        })
+        console.log(lines)
       }
-    ) */
+      let order = [{
+        "FECHA": "03/05/2021",
+        "CODCLI": "1",
+        "CODALM": "1",
+        "ESTADO": "AC",
+        "FECENTREGA": "08/05/2021",
+        "SITUACION": "A",
+        "lineas": lines
+      }];
+      (await this.apiService.sendOrder(order)).subscribe(
+        async (response) => {
+          console.log(response);
+          await Storage.set({ key: 'PRODUCTS', value: JSON.stringify([]) })
+          this.router.navigateByUrl('/folder/Inbox', { replaceUrl: true });
+        }, async (error) => {
+          console.log(error)
+          if (error.status === 401) {
+            this.logout();
+          } else {
+            const alert = await this.alertController.create({
+              header: 'Error',
+              subHeader: 'Parece que hay problemas',
+              buttons: ['OK']
+            });
+            await alert.present();
+          }
+        }
+      )
+    } else {
+      this.ngZone.run(() => this.cardError = error.message);
+    }
+    this.loadingController.dismiss();
   }
 
   async logout() {

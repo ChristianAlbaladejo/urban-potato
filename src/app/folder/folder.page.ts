@@ -26,7 +26,7 @@ export class FolderPage implements OnInit {
     private router: Router) { }
 
   async ngOnInit() {
-   /*  let token = await Storage.get({ key: 'PRODUCTS' });
+     let token = await Storage.get({ key: 'PRODUCTS' });
     if (token.value){
     this.products = JSON.parse(token.value);
     }
@@ -39,7 +39,7 @@ export class FolderPage implements OnInit {
     if (token.value) {
       this.products = JSON.parse(token.value);
     }
-    console.log(this.products) */
+    console.log(this.products) 
   }
 
   async load() {
@@ -54,12 +54,16 @@ export class FolderPage implements OnInit {
         this.artTop = response;
         this.artTop.forEach(item => item["quantity"] = 0);
         console.log(this.artTop);
-        this.loadImages()
+        let img = "";
+        for (let i = 0; i < response.length; i++) {
+          img += response[i].cODART.trim() + ","
+        }
+        this.loadImages(img.substring(0, img.length - 1))
       }, async (error) => {
+        this.loadingController.dismiss();
         console.log(error)
         if (error.status === 401) {
           this.logout();
-          this.loadingController.dismiss();
         } else {
           const alert = await this.alertController.create({
             header: 'Error',
@@ -72,13 +76,18 @@ export class FolderPage implements OnInit {
     )
   }
 
-  async loadImages() {
-    (await this.apiService.getProductsImages()).subscribe(
+  async loadImages(img) {
+    (await this.apiService.getProductsImages(img)).subscribe(
       (response) => {
         console.log(response);
+        for (let i = 0; i < response.length; i++) {
+          this.artTop[i].image = response[i].Imagen
+        }
         this.loadingController.dismiss();
+        console.log(this.artTop)
       }, async (error) => {
         console.log(error)
+        this.loadingController.dismiss();
         if (error.status === 401) {
           this.logout();
         } else {
@@ -91,6 +100,7 @@ export class FolderPage implements OnInit {
         }
       }
     )
+    
   }
 
   async presentActionSheet(product) {

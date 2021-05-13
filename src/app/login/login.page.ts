@@ -6,11 +6,13 @@ import { ModalController } from '@ionic/angular';
 import { RecoverPage } from '../recover/recover.page'
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular'
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
+  providers: [ApiService]
 })
 export class LoginPage implements OnInit {
   credentials: FormGroup;
@@ -18,6 +20,7 @@ export class LoginPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticationService,
+    private apiService: ApiService,
     private alertController: AlertController,
     private router: Router,
     private loadingController: LoadingController,
@@ -27,8 +30,8 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.credentials = this.fb.group({
-      email: ['usuario'],
-      password: ['password'],
+      email: ['Usuario1'],
+      password: ['Usuario1'],
     });
   }
 
@@ -45,12 +48,13 @@ export class LoginPage implements OnInit {
 
     this.authService.login(this.credentials.value).subscribe(
       async (res) => {
-        console.log(res)
+        console.log(res);
+        this.sendFirebase();
         await loading.dismiss();
         this.router.navigateByUrl('/folder/Inbox', { replaceUrl: true });
       },
-      async (res) => {
-        console.log(res)
+      async (err) => {
+        console.log(err)
         await loading.dismiss();
         const alert = await this.alertController.create({
           header: 'Error',
@@ -59,6 +63,16 @@ export class LoginPage implements OnInit {
         });
 
         await alert.present();
+      }
+    );
+  }
+
+  async sendFirebase(){
+    (await this.apiService.sendFirebaseToken()).subscribe(
+      async (res) => {
+        console.log(res)
+      }, (err) => {
+        console.error("deb " + err)
       }
     );
   }

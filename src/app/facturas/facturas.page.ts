@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
   providers: [ApiService]
 })
 export class FacturasPage implements OnInit {
+  
+  facturas;
 
   constructor(
     private apiService: ApiService,
@@ -21,7 +23,31 @@ export class FacturasPage implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Cargando...',
+      translucent: true,
+    });
+    await loading.present();
+    (await this.apiService.getInvoice()).subscribe(
+      (response) => {
+        console.log(response);
+        this.facturas = response;
+        this.loadingController.dismiss();
+      }, async (error) => {
+        console.error(error)
+        if (error.status === 401) {
+          this.logout();
+        }
+        this.loadingController.dismiss();
+        const alert = await this.alertController.create({
+          header: 'Error',
+          subHeader: 'Parece que hay problemas',
+          buttons: ['OK']
+        });
+        await alert.present();
+      }
+    )
   }
 
   async getPdf(id){
@@ -31,7 +57,7 @@ export class FacturasPage implements OnInit {
       translucent: true,
     });
     await loading.present();
-    (await this.apiService.getPdf(id)).subscribe(
+    (await this.apiService.getPdf(parseInt(id))).subscribe(
       (response) => {
         console.log(response);
         this.loadingController.dismiss();
