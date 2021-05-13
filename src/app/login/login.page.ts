@@ -30,8 +30,8 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.credentials = this.fb.group({
-      email: ['Usuario1'],
-      password: ['Usuario1'],
+      email: [''],
+      password: [''],
     });
   }
 

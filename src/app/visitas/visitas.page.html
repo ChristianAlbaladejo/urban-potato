@@ -16,12 +16,12 @@
   
       <ion-item>
         <ion-label>Técnico</ion-label>
-        <ion-radio slot="start" value="tecnico"></ion-radio>
+        <ion-radio slot="start" value="tecnico" color="secondary"></ion-radio>
       </ion-item>
 
       <ion-item>
         <ion-label>Comercial</ion-label>
-        <ion-radio slot="start" value="comercial"></ion-radio>
+        <ion-radio slot="start" value="comercial"  color="secondary"></ion-radio>
       </ion-item>
   
     </ion-radio-group>
@@ -40,6 +40,6 @@
       <ion-datetime [(ngModel)]="hour" display-format="H:MM" picker-format="H:MM" placeholder="Hora"></ion-datetime>
     </ion-item>
   </ion-list>
-  <ion-button shape="round" expand="block" [disabled]="!hour || !day" >Solicitar visita</ion-button>
+  <ion-button shape="round" expand="block"  color="secondary" [disabled]="!hour || !day" >Solicitar visita</ion-button>
 
 </ion-content>
